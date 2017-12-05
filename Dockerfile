@@ -31,5 +31,6 @@ RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-d
 
 RUN usermod -u 1000 www-data \
   && chown www-data:www-data /var/www
+RUN  a2enmod rewrite
 
 CMD /usr/sbin/apache2ctl -D FOREGROUND
