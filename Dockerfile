@@ -1,5 +1,7 @@
 FROM php:7.1-apache
 
+LABEL maintainer="Pierre Pottié <pierre.pottie@businessdecision.com>"
+
 RUN systemMods=" \
         apt-transport-https \
         git \
