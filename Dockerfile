@@ -1,11 +1,8 @@
 FROM php:7.1-apache
 
-LABEL maintainer="Pierre Pottié <pierre.pottie@businessdecision.com>"
-
 RUN systemMods=" \
         apt-transport-https \
         git \
-        nodejs \
         unzip \
     " \
     && apt-get update \
@@ -29,8 +26,12 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
 RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer \
   && chmod +x /usr/local/bin/composer
 
+RUN a2enmod rewrite
+
+
 RUN usermod -u 1000 www-data \
-  && chown www-data:www-data /var/www
-RUN  a2enmod rewrite
+  && chown www-data:www-data /var/www -R
+
+WORKDIR /var/www/
 
 CMD /usr/sbin/apache2ctl -D FOREGROUND
