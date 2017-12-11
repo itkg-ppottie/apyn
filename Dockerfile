@@ -1,4 +1,4 @@
-FROM php:7.1-apache
+FROM php:apache
 
 RUN systemMods=" \
         apt-transport-https \
@@ -23,8 +23,9 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer \
-  && chmod +x /usr/local/bin/composer
+# Install Composer
+COPY --from=composer:1.5 /usr/bin/composer /usr/bin/composer
+RUN composer --version
 
 RUN a2enmod rewrite
 
